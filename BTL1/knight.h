@@ -3,6 +3,7 @@
 
 #include "main.h"
 
+void readFile(string fileName);
 void display(int HP, int level, int remedy, int maidenkiss, int phoenixdown, int rescue);
 void adventureToKoopa(string file_input, int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue);
 
