@@ -18,6 +18,15 @@ void readFile(string fileName)
         }
     }
 }
+void round0(){
+
+    }
+int levelO[];
+for(int i=1;i<=5;i++){}
+    void round1(){
+
+    }
+
 void display(int HP, int level, int remedy, int maidenkiss, int phoenixdown, int rescue)
 {
     cout << "HP=" << HP
@@ -26,6 +35,8 @@ void display(int HP, int level, int remedy, int maidenkiss, int phoenixdown, int
          << ", maidenkiss=" << maidenkiss
          << ", phoenixdown=" << phoenixdown
          << ", rescue=" << rescue << endl;
+    
+    
 }
 
 void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &maidenkiss, int &phoenixdown, int &rescue)
