@@ -4,6 +4,9 @@
 #include <fstream>
 #include <string.h>
 #include <sstream>
+int i=1;
+int b=i%10;
+int levelO=i > 6?(b > 5?b : 5) : b;
 
 void readFile(string fileName, int line1_param[], int line2_param[], string line3_param[])
 {
@@ -30,14 +33,14 @@ void readFile(string fileName, int line1_param[], int line2_param[], string line
 
 void round0()
 {
-    int levelO[];
-    for (int i = 1; i <= 5; i++)
-    {
-    }
+    
 }
 
 void round1()
-{
+{ int i=1;
+  int b=i%10;
+  int levelO=i > 6?(b > 5?b : 5) : b;
+  
 }
 
 void display(int HP, int level, int remedy, int maidenkiss, int phoenixdown, int rescue)
