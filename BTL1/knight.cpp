@@ -25,15 +25,10 @@ void readFile(string fileName, int line1_param[], int line2_param[], string line
     string str;
     while (getline(file_input, str))
     {
-        stringstream knight(str1);
-        while (knight >> line1)
-        line1_param[count]=stoi(line1);
-    }
-    while (getline(file_input, str2))
-    {
-        stringstream event(str2);
-        while (event >> line2)
-        line2_param[count]=stoi(line2);
+        stringstream ss(str);
+        while (ss >> line)
+        {
+        }
     }
 }
 
