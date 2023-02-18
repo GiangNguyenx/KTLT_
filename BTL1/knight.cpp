@@ -20,11 +20,10 @@ void readFile(string fileName, int line1_param[], int line2_param[], string line
         Tại hàm adventureToKoopa(), khai báo 3 mảng sau đó truyền vào readFile().
         Các thông số HP, ... sẽ lấy từ mảng sau khi chạy hàm. Đã có ví dụ phía dưới.
     */
-    int count=0;
     ifstream file_input(fileName);
-    string line1, line2, line3;
-    string str1, str2, str3;
-    while (getline(file_input, str1))
+    string line;
+    string str;
+    while (getline(file_input, str))
     {
         stringstream knight(str1);
         while (knight >> line1)
@@ -47,7 +46,10 @@ void round0()
 }
 
 void round1()
-{
+{ int i=1;
+  int b=i%10;
+  int levelO=i > 6?(b > 5?b : 5) : b;
+  
 }
 
 void display(int HP, int level, int remedy, int maidenkiss, int phoenixdown, int rescue)
