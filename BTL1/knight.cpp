@@ -7,11 +7,12 @@
 
 void readFile(string fileName, int line1_param[], int line2_param[], string line3_param[])
 {
-    /* Các tham số của hàm:
-        - fileName: tên file input
-        - line1_param: dòng 1 trong file input - các chỉ số của hiệp sĩ
-        - line2_param: dòng 2 trong file input - các sự kiện
-        - line3_param: dòng 3 trong file input - các tên file thêm
+    /* 
+        Các tham số của hàm:
+            - fileName: tên file input
+            - line1_param: dòng 1 trong file input - các chỉ số của hiệp sĩ
+            - line2_param: dòng 2 trong file input - các sự kiện
+            - line3_param: dòng 3 trong file input - các tên file thêm
         Lưu các chỉ số tách được vào các mảng tương ứng.
         Tại hàm adventureToKoopa(), khai báo 3 mảng sau đó truyền vào readFile().
         Các thông số HP, ... sẽ lấy từ mảng sau khi chạy hàm. Đã có ví dụ phía dưới.
@@ -28,15 +29,15 @@ void readFile(string fileName, int line1_param[], int line2_param[], string line
     }
 }
 
-void round0()
+void round0(int &HP, int &level, int &remedy, int &maidenkiss, int &phoenixdown, int &rescue)
 {
-    int levelO[];
+    int levelO[] = {1, 2, 3};
     for (int i = 1; i <= 5; i++)
     {
     }
 }
 
-void round1()
+void round1(int &HP, int &level, int &remedy, int &maidenkiss, int &phoenixdown, int &rescue)
 {
 }
 
