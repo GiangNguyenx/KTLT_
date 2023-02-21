@@ -20,15 +20,12 @@ void readFile(string fileName, int line1_param[], int line2_param[], string line
         Các thông số HP, ... sẽ lấy từ mảng sau khi chạy hàm. Đã có ví dụ phía dưới.
     */
 
-    int count = 0;
     ifstream file_input(fileName);
     string line1, line2, line3;
     string str1, str2, str3;
-
-
-    /*
-        int line1_i = 0, line2_i = 0, line3_i = 0, line_i = 0;
-        string line, param;
+    int line1_i = 0, line2_i = 0, line3_i = 0, line_i = 0;
+    string line, param;
+        
         while (getline(file_input, line)){
             stringstream str(line);
             while (str >> param){
@@ -52,40 +49,27 @@ void readFile(string fileName, int line1_param[], int line2_param[], string line
             }
             line_i++;
         }
-    */
-    while (getline(file_input, str1))
-    {
-        stringstream knight(str1);
-        while (knight >> line1)
-            line1_param[count] = stoi(line1);
-    }
-    while (getline(file_input, str2))
-    {
-        stringstream event(str2);
-        while (event >> line2)
-            line2_param[count] = stoi(line2);
-    }
-    while (getline(file_input, str3))
-    {
-        stringstream file(str3);
-        while (file >> line3)
-            line3_param[count] = stoi(line3);
-    }
+   
 }
 
-void round0()
-{
+
+    
+        
+
+void round0(int HP, int level, int remedy, int maidenkiss, int phoenixdown, int rescue){
+    rescue=1;
 }
 
-void round1(int i, int b, int levelO, )
+void round1(int i, int b, int levelO,int HP, int level, int remedy, int maidenkiss, int phoenixdown, int rescue )
 {
-    int i = 1;
+    int i = 1, basedamage=1, damage;
     int b = i % 10;
     int levelO = i > 6 ? (b > 5 ? b : 5) : b;
-    if (level > levelO)
-        level += 1;
+    if (level > levelO){
+        if(level<10) level+=1;
+    }
     else if (level == levelO)
-        continue;
+        level+=0;
     else
     {
         damage = basedamage * levelO * 10;
