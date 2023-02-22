@@ -52,7 +52,24 @@ void readFile(string fileName, int line1_param[], int line2_param[], string line
    
 }
 
+void initArray(int knight_param[], int event_param[], string file_param[]){
+    for(int i = 0; i < 5; i++){
+        knight_param[i] = -10000;
+        event_param[i] = -1;
+    }
 
+    for(int i = 0; i < 3; i++){
+        file_param[i] = "";
+    }
+}
+
+void initKnight(int knight_param[], int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
+    
+}
+
+void eventZero(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
+
+}
     
         
 
@@ -92,10 +109,19 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
     int knight_param[5], event_param[5];
     string file_param[3];
 
+    initArray(knight_param, event_param, file_param);
     readFile(file_input, knight_param, event_param, file_param);
+
+    // Knight parameter
     HP = knight_param[0];
+    level = knight_param[1];
+    remedy = knight_param[2];
+    maidenkiss = knight_param[3];
     phoenixdown = knight_param[4];
 
-    cout << phoenixdown << endl;
-    cout << "Function isn't implemented" << endl;
+    // Event parameter
+
+    display(HP, level, remedy, maidenkiss, phoenixdown, rescue);
+    // cout << phoenixdown << endl;
+    // cout << "Function isn't implemented" << endl;
 }
