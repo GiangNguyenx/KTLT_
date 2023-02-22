@@ -64,14 +64,29 @@ void initArray(int knight_param[], int event_param[], string file_param[]){
 }
 
 void initKnight(int knight_param[], int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
-    
+    HP = knight_param[0];
+    level = knight_param[1];
+    remedy = knight_param[2];
+    maidenkiss = knight_param[3];
+    phoenixdown = knight_param[4];
 }
 
 void eventZero(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
-
+    return;
 }
     
-        
+void traverseEvent(int event_param[], int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
+    for (int event = 0; event < 5; event++){
+        if (event == 0) {
+            eventZero(HP, level, remedy, maidenkiss, phoenixdown, rescue);
+            return;
+        }
+        else if (event == 1 || event == 2 || event == 3 || event == 4 || event == 5) {
+            eventOneToFive(HP, level, remedy, maidenkiss, phoenixdown, rescue);
+        }
+        // 
+    }
+}   
 
 void round0(int HP, int level, int remedy, int maidenkiss, int phoenixdown, int rescue){
     rescue=1;
@@ -111,17 +126,15 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
 
     initArray(knight_param, event_param, file_param);
     readFile(file_input, knight_param, event_param, file_param);
-
-    // Knight parameter
-    HP = knight_param[0];
-    level = knight_param[1];
-    remedy = knight_param[2];
-    maidenkiss = knight_param[3];
-    phoenixdown = knight_param[4];
-
-    // Event parameter
-
-    display(HP, level, remedy, maidenkiss, phoenixdown, rescue);
     // cout << phoenixdown << endl;
+
+    // ******* Knight parameter *********
+    initKnight(knight_param, HP, level, remedy, maidenkiss, phoenixdown, rescue);
+
+    // ******* Đọc và thao tác với các sự kiện ******
+    traverseEvent(event_param, HP, level, remedy, maidenkiss, phoenixdown, rescue);
+
+    // ******* In ra kết quả ******
+    display(HP, level, remedy, maidenkiss, phoenixdown, rescue);
     // cout << "Function isn't implemented" << endl;
 }
