@@ -21,16 +21,22 @@ void readFile(string fileName, int line1_param[], int line2_param[], string line
     */
 
     ifstream file_input(fileName);
-    string line1, line2, line3;
+    // string line1, line2, line3;
     string str1, str2, str3;
     int line1_i = 0, line2_i = 0, line3_i = 0, line_i = 0;
     string line, param;
+    char delimeter = ' ';
 
     while (getline(file_input, line))
     {
-        stringstream str(line);
-        while (str >> param)
+        stringstream ss(line);
+        // cout << line << endl;
+        while (!ss.eof())
         {
+            getline(ss, param, delimeter);
+        
+            // cout << delimeter << endl;
+            // cout << param << endl;
             switch (line_i)
             {
             case 0:
@@ -40,6 +46,7 @@ void readFile(string fileName, int line1_param[], int line2_param[], string line
             case 1:
                 line2_param[line2_i] = stoi(param);
                 line2_i++;
+                delimeter = ',';
                 break;
             case 2:
                 line3_param[line3_i] = param;
@@ -50,6 +57,7 @@ void readFile(string fileName, int line1_param[], int line2_param[], string line
             }
         }
         line_i++;
+        // cout << line_i << endl;
     }
 }
 
@@ -278,20 +286,128 @@ int downToNearestFibonacci(int HP){
     for (int i = HP - 1; i >= 1; i--){
         if (isFibonacci(i)) return i;
     }
+
+    return 1;
 }
 void eventTwelve(int & HP){
     if (HP > 1) HP = downToNearestFibonacci(HP);
 }
 
-void eventThirteen(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue);
-void eventFifteen2Seventeen(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue);
+void mushroomType1(int & HP, int arr[], int size) {
+    int mini = 0, maxi = 0;
+
+    for (int i = 0; i < size; i++) {
+        if (arr[i] > arr[maxi]) {
+            maxi = i;
+        }
+        if (arr[i] < arr[mini])
+            mini = i;
+    }
+
+    HP = HP - (maxi + mini);
+}
+void mushroomType2(int& HP, int arr[], int size){
+
+}
+void mushroomType3(int & HP, int arr[], int size){}
+void mushroomType4(int & HP, int arr[], int size){}
+void eventThirteen(string file_name, int event_code, int maxHP, int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
+    string event_code_str = to_string(event_code);
+
+    string line, param, number;
+
+    ifstream file_input(file_name);
+
+    int line_i = 0, size = 0;
+
+    // cout << line_i << endl;
+    while (getline(file_input, line))
+    {
+        // cout << file_name;
+        stringstream ss(line);
+        while (getline(ss, param, ','))
+        {
+            switch (line_i)
+            {
+            case 0:
+                size = stoi(param);
+                break;
+            case 1:
+                number += param;
+                break;
+            default:
+                break;
+            }
+        }
+        line_i++;
+    }
+
+    int arr[size];
+    for (int i = 0; i < number.length(); i++){
+        arr[i] = number[i] - '0';
+    }
+
+    for (int i = 2; i < event_code_str.length(); i++){
+        switch (event_code_str[i])
+        {
+        case '1':
+            mushroomType1(HP, arr, size);
+            break;
+        case '2':
+            /* code */
+            break;
+        case '3':
+            /* code */
+            break;
+        case '4':
+            /* code */
+            break;
+        default:
+            break;
+        }
+
+        if (HP > maxHP) HP = maxHP;
+        else if (HP < 0){
+            if (phoenixdown >= 1) phoenixdown--;
+            else break;
+        }
+    }
+}
+
+void eventFifteen2Seventeen(int event_code, int & remedy, int & maidenkiss, int & phoenixdown){
+    switch (event_code)
+    {
+    case 15:
+        remedy++;
+        if (remedy > 99) remedy = 99;
+        break;
+    case 16:
+        maidenkiss++;
+        if (maidenkiss > 99) maidenkiss = 99;
+        break;
+    case 17:
+        phoenixdown++;
+        if (phoenixdown > 99) phoenixdown = 99;
+        break;
+    default:
+        break;
+    }
+}
+
 void eventNineteen(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue);
-void hpIs999(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue);
-void hpIsPrime(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue);
+
+void hpIs999(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
+
+}
+
+void hpIsPrime(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
+
+}
+
 void event99th(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue);
 void eventEighteen(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue);
 
-void traverseEvent(int event_param[], int &HP, int &level, int &remedy, int &maidenkiss, int &phoenixdown, int &rescue)
+void traverseEvent(int event_param[], string file_param[], int &HP, int &level, int &remedy, int &maidenkiss, int &phoenixdown, int &rescue)
 {
     int maxHP = HP;
     rescue = -1;
@@ -336,8 +452,11 @@ void traverseEvent(int event_param[], int &HP, int &level, int &remedy, int &mai
         else if (event_code == 12){
             eventTwelve(HP);
         }
-        else if (event_code == 13){
-            
+        else if (to_string(event_code).find("13") != string::npos){
+            if (file_param[0] != "") {
+            // cout << "Here\n";
+                eventThirteen(file_param[0], event_code, maxHP, HP, level, remedy, maidenkiss, phoenixdown, rescue);
+            }
         }
 
         // Sau mỗi sự kiện, nếu rescue = 0 thì hành trình dừng lại, thoát vòng lặp
@@ -390,28 +509,6 @@ void traverseEvent(int event_param[], int &HP, int &level, int &remedy, int &mai
         rescue = 1;
 }
 
-void round0(int HP, int level, int remedy, int maidenkiss, int phoenixdown, int rescue)
-{
-    rescue = 1;
-}
-
-void round1(int i, int b, int levelO, int HP, int level, int remedy, int maidenkiss, int phoenixdown, int rescue)
-{
-    // int i = 1, basedamage=1, damage;
-    // int b = i % 10;
-    // int levelO = i > 6 ? (b > 5 ? b : 5) : b;
-    // if (level > levelO){
-    //     if(level<10) level+=1;
-    // }
-    // else if (level == levelO)
-    //     level+=0;
-    // else
-    // {
-    //     damage = basedamage * levelO * 10;
-    //     HP = HP - damage;
-    // }
-}
-
 void display(int HP, int level, int remedy, int maidenkiss, int phoenixdown, int rescue)
 {
     cout << "HP=" << HP
@@ -435,7 +532,7 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
     initKnight(knight_param, HP, level, remedy, maidenkiss, phoenixdown, rescue);
 
     // ******* Đọc và thao tác với các sự kiện ******
-    traverseEvent(event_param, HP, level, remedy, maidenkiss, phoenixdown, rescue);
+    traverseEvent(event_param, file_param, HP, level, remedy, maidenkiss, phoenixdown, rescue);
 
     // ******* In ra kết quả ******
     display(HP, level, remedy, maidenkiss, phoenixdown, rescue);
