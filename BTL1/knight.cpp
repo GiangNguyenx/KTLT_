@@ -8,6 +8,16 @@
 // int b = i % 10;
 // int levelO = i > 6 ? (b > 5 ? b : 5) : b;
 
+struct Knight {
+    int HP;
+    int level;
+    int remedy;
+    int maidenkiss;
+    int phoenixdown;
+
+    Knight(int hp, int lev, int rem, int mai, int phoe): HP(hp), level(lev), remedy(rem), maidenkiss(mai), phoenixdown(phoe) {}
+};
+
 void readFile(string fileName, int line1_param[], string& line2_param, string line3_param[], int &num_event)
 {
     /* Các tham số của hàm:
@@ -31,12 +41,12 @@ void readFile(string fileName, int line1_param[], string& line2_param, string li
     {
         stringstream ss(line);
         // cout << line << endl;
-        while (!ss.eof())
+        while (getline(ss, param, delimeter))
         {
-            getline(ss, param, delimeter);
+            // getline(ss, param, delimeter);
         
             // cout << delimeter << endl;
-            // cout << param << endl;
+            // cout << "param:" << param << endl;
             switch (line_i)
             {
             case 0:
@@ -87,38 +97,38 @@ void initArray(int knight_param[], string file_param[])
     }
 }
 
-void initKnight(int knight_param[], int &HP, int &level, int &remedy, int &maidenkiss, int &phoenixdown, int &rescue)
+void initKnight(int knight_param[], Knight &knight, int &rescue)
 {
-    HP = knight_param[0];
-    level = knight_param[1];
-    remedy = knight_param[2];
-    maidenkiss = knight_param[3];
-    phoenixdown = knight_param[4];
+    knight.HP = knight_param[0];
+    knight.level = knight_param[1];
+    knight.remedy = knight_param[2];
+    knight.maidenkiss = knight_param[3];
+    knight.phoenixdown = knight_param[4];
 }
 
-void eventZero(int &HP, int &level, int &remedy, int &maidenkiss, int &phoenixdown, int &rescue)
+void eventZero(Knight& knight, int &rescue)
 {
     rescue = 1;
     return;
 }
 
-void eventOneToFive(int event_code, int event, int maxHP, int &HP, int &level, int &remedy, int &maidenkiss, int &phoenixdown, int &rescue)
+void eventOneToFive(int event_code, int event, int maxHP, Knight& knight, int &rescue)
 {
     int b = event % 10;
     int levelO = event > 6 ? (b > 5 ? b : 5) : b; // i ~ event
 
     // cout << b << ' ' << levelO << ' ' << level << ' ' << event << endl;
-    if (level > levelO)
+    if (knight.level > levelO)
     {
-        if (level == 10)
+        if (knight.level == 10)
         {
         }
         else
         {
-            level++;
+            knight.level++;
         }
     }
-    else if (level == levelO)
+    else if (knight.level == levelO)
     {
     }
     else
@@ -147,18 +157,18 @@ void eventOneToFive(int event_code, int event, int maxHP, int &HP, int &level, i
 
         damage = baseDamage * levelO * 10;
         // cout << damage << ' ' << levelO << baseDamage << endl;
-        HP = HP - (int)damage;
-        if (HP <= 0)
+        knight.HP = knight.HP - (int)damage;
+        if (knight.HP <= 0)
         {
-            if (phoenixdown == 0)
+            if (knight.phoenixdown == 0)
             {
                 rescue = 0;
                 return;
             }
-            else if (phoenixdown > 0)
+            else if (knight.phoenixdown > 0)
             {
-                phoenixdown--;
-                HP = maxHP;
+                knight.phoenixdown--;
+                knight.HP = maxHP;
                 rescue = -1;
             }
         }
@@ -166,36 +176,35 @@ void eventOneToFive(int event_code, int event, int maxHP, int &HP, int &level, i
     // rescue = 1;
 }
 
-void eventSix(bool &is_tiny, int event, int maxHP, int &HP, int &level, int &remedy, int &maidenkiss, int &phoenixdown, int &rescue)
+void eventSix(bool &is_tiny, int event, int& event_remain ,int maxHP, Knight& knight, int &rescue)
 {
     int b = event % 10;
     int levelO = event > 6 ? (b > 5 ? b : 5) : b; // i ~ event
     is_tiny = false;
 
-    // cout << b << ' ' << levelO << ' ' << level << ' ' << event << endl;
-    if (level > levelO)
+    // cout << b << ' ' << levelO << ' ' << knight.level << ' ' << event << endl;
+    if (knight.level > levelO)
     {
-        if (level == 10)
+        knight.level += 2;
+        if (knight.level >= 10)
         {
+            knight.level = 10;
         }
-        else
-        {
-            level += 2;
-        }
+
     }
-    else if (level == levelO)
+    else if (knight.level == levelO)
     {
         rescue = -1;
     }
     else
     {
-        if (HP < 5) HP = 1;
-        else HP = (int)(HP / 5);
+        if (knight.HP < 5) knight.HP = 1;
+        else knight.HP = (int)(knight.HP / 5);
         is_tiny = true;
 
-        if (remedy >= 1){
-            remedy--;
-            HP = HP * 5;
+        if (knight.remedy >= 1){
+            knight.remedy--;
+            knight.HP = knight.HP * 5;
             is_tiny = false;
         }
         else {
@@ -208,14 +217,14 @@ void eventSix(bool &is_tiny, int event, int maxHP, int &HP, int &level, int &rem
         }
         // if (HP <= 0)
         // {
-        //     if (phoenixdown == 0)
+        //     if (knight.phoenixdown == 0)
         //     {
         //         rescue = 0;
         //         return;
         //     }
-        //     else if (phoenixdown > 0)
+        //     else if (knight.phoenixdown > 0)
         //     {
-        //         phoenixdown--;
+        //         knight.phoenixdown--;
         //         HP = maxHP;
         //         rescue = -1;
         //     }
@@ -223,33 +232,33 @@ void eventSix(bool &is_tiny, int event, int maxHP, int &HP, int &level, int &rem
     }
 }
 
-void eventSeven(bool &is_frog, int event, int maxHP, int &HP, int &level, int &remedy, int &maidenkiss, int &phoenixdown, int &rescue){
+void eventSeven(bool &is_frog, int event, int &event_remain, int maxHP, Knight& knight, int &rescue){
     int b = event % 10;
     int levelO = event > 6 ? (b > 5 ? b : 5) : b; // i ~ event
     is_frog = false;
 
-    int level_zero = level;
-    // cout << b << ' ' << levelO << ' ' << level << ' ' << event << endl;
-    if (level > levelO)
+    int level_zero = knight.level;
+    // cout << b << ' ' << levelO << ' ' << knight.level << ' ' << event << endl;
+    if (knight.level > levelO)
     {
-        if (level == 10)
+        if (knight.level == 10)
         {
         }
         else
         {
-            level += 2;
+            knight.level += 2;
         }
     }
-    else if (level == levelO)
+    else if (knight.level == levelO)
     {
         rescue = -1;
     }
     else {
         is_frog = true;
-        level = 1;
-        if (maidenkiss >= 1){
+        knight.level = 1;
+        if (knight.maidenkiss >= 1){
             is_frog = false;
-            level = level_zero;
+            knight.level = level_zero;
         }
     }
 }
@@ -274,13 +283,13 @@ int upToNearestPrime(int HP){
         if (isPrime(i)) return i;
     }
 }
-void eventEleven(int maxHP, int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
-    int n1 = ((level + phoenixdown) % 5 + 1) * 3;
+void eventEleven(int maxHP, Knight& knight, int & rescue){
+    int n1 = ((knight.level + knight.phoenixdown) % 5 + 1) * 3;
     int s1 = oddNumberSum(n1);
 
-    HP = HP + (s1 % 100);
-    HP = upToNearestPrime(HP);
-    if (HP > maxHP) HP = maxHP;
+    knight.HP = knight.HP + (s1 % 100);
+    knight.HP = upToNearestPrime(knight.HP);
+    if (knight.HP > maxHP) knight.HP = maxHP;
 }
 
 bool isFibonacci(int HP){
@@ -315,7 +324,7 @@ void mushroomType1(int & HP, int arr[], int size) {
         if (arr[i] < arr[mini])
             mini = i;
     }
-
+    cout << maxi << ' ' << mini << endl;
     HP = HP - (maxi + mini);
 }
 bool isMountainArray(int arr[], int size, int& mtx, int& mti){
@@ -356,7 +365,7 @@ bool isMountainArray(int arr[], int size, int& mtx, int& mti){
 void mushroomType2(int& HP, int arr[], int size){
     int mtx = -2, mti = -3;
     isMountainArray(arr, size, mtx, mti);
-    // cout << mtx << ' ' << mti << endl;
+    cout << mtx << ' ' << mti << endl;
     HP = HP - (mtx + mti);
 }
 void mushroomType3(int & HP, int arr[], int size){
@@ -375,7 +384,7 @@ void mushroomType3(int & HP, int arr[], int size){
             mini = i;
     }
 
-    // cout << maxi << " " << mini << endl;
+    cout << maxi << " " << mini << endl;
     HP = HP - (maxi + mini);
 }
 void mushroomType4(int & HP, int arr[], int size){
@@ -401,10 +410,22 @@ void mushroomType4(int & HP, int arr[], int size){
         }
     }
 
-    if (max2_3i > 0) max2_3x = arr[max2_3i];
+    if (max2_3i >= 0) max2_3x = arr[max2_3i];
+    cout << max2_3x << ' ' << max2_3i << endl;
     HP = HP - (max2_3x + max2_3i);
 }
-void eventThirteen(string file_name, int event_code, int maxHP, int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
+void revertToRootArray(int root_array[], int used_array[], int size){
+    for (int i = 0; i < size; i++) {
+        used_array[i] = root_array[i];
+    }
+}
+void printArray(int array[], int size){
+    for (int i = 0; i < size; i++){
+        cout << array[i] << ' ';
+    }
+    cout << endl;
+}
+void eventThirteen(string file_name, int event_code, int maxHP, Knight& knight, int & rescue){
     string event_code_str = to_string(event_code);
 
     string line, param, number;
@@ -441,62 +462,66 @@ void eventThirteen(string file_name, int event_code, int maxHP, int & HP, int & 
         arr4[i] = arr1[i];
     }
 
-    // for (int i = 0; i < size; i++){
-    //     cout << arr1[i] << ' ';
-    // }
-
     for (int i = 2; i < event_code_str.length(); i++){
         switch (event_code_str[i])
         {
         case '1':
-            mushroomType1(HP, arr1, size);
-            // cout << "Type 1 " << HP << endl;
+            // printArray(arr1, size);
+            mushroomType1(knight.HP, arr1, size);
+            cout << "Type 1 " << knight.HP << endl;
             break;
         case '2':
-            mushroomType2(HP, arr2, size);
-            // cout << "Type 2 " << HP << endl;
+        // printArray(arr2, size);
+            mushroomType2(knight.HP, arr2, size);
+            cout << "Type 2 " << knight.HP << endl;
             break;
         case '3':
-            mushroomType3(HP, arr3, size);
-            // cout << "Type 3 " << HP << endl;
+            revertToRootArray(arr1, arr3, size);
+            // printArray(arr3, size);
+            mushroomType3(knight.HP, arr3, size);
+            printArray(arr3, size);
+            cout << "Type 3 " << knight.HP << endl;
             break;
         case '4':
-            mushroomType4(HP, arr4, size);
-            // cout << "Type 4 " << HP << endl;
+            revertToRootArray(arr1, arr4, size);
+            // printArray(arr4, size);
+            mushroomType4(knight.HP, arr4, size);
+            printArray(arr4, size);
+            cout << "Type 4 " << knight.HP << endl;
             break;
         default:
             break;
         }
 
-        if (HP > maxHP) HP = maxHP;
-        else if (HP < 0){
-            if (phoenixdown >= 1) phoenixdown--;
+        if (knight.HP > maxHP) knight.HP = maxHP;
+        else if (knight.HP < 0){
+            if (knight.phoenixdown >= 1) knight.phoenixdown--;
             else break;
         }
     }
 }
 
-void eventFifteen2Seventeen(int event_code, int & remedy, int & maidenkiss, int & phoenixdown){
+void eventFifteen2Seventeen(int event_code, Knight& knight){
     switch (event_code)
     {
     case 15:
-        remedy++;
-        if (remedy > 99) remedy = 99;
+        knight.remedy++;
+        if (knight.remedy > 99) knight.remedy = 99;
         break;
     case 16:
-        maidenkiss++;
-        if (maidenkiss > 99) maidenkiss = 99;
+        knight.maidenkiss++;
+        if (knight.maidenkiss > 99) knight.maidenkiss = 99;
         break;
     case 17:
-        phoenixdown++;
-        if (phoenixdown > 99) phoenixdown = 99;
+        knight.phoenixdown++;
+        if (knight.phoenixdown > 99) knight.phoenixdown = 99;
         break;
     default:
         break;
     }
 }
 
-void eventNineteen(string file_name, int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
+void eventNineteen(string file_name, Knight& knight, int & rescue, bool &isTiny, bool &isFrog){
     
     string line, param, number;
 
@@ -505,11 +530,15 @@ void eventNineteen(string file_name, int & HP, int & level, int & remedy, int & 
     int line_i = 0, r1 = 0, c1 = 0;
 
     int numDrug = 0, drug;
+
+    // cout << file_name << endl;
     while (getline(file_input, line))
     {
         stringstream ss(line);
-        while (getline(ss, param))
+        // cout << line << endl;
+        while (getline(ss, param, ' '))
         {
+            // cout << param << endl;
             switch (line_i)
             {
             case 0:
@@ -520,62 +549,92 @@ void eventNineteen(string file_name, int & HP, int & level, int & remedy, int & 
                 break;
             default:
                 drug = stoi(param);
+                // cout << "drug: " << drug << endl;
                 if ((drug == 16 || drug == 17 || drug == 18) && numDrug < 3){
-                    if (drug == 16) remedy++;
-                    else if (drug == 17) maidenkiss++;
-                    else if (drug == 18) phoenixdown++;
-                    numDrug++;
+                    if (drug == 16){
+                        knight.remedy++;
+                        numDrug++;
+                    } 
+                    else if (drug == 17){
+                        knight.maidenkiss++;
+                        numDrug++;
+                    } 
+                    else if (drug == 18){
+                        knight.phoenixdown++;
+                        numDrug++;
+                    }
                 }
+                if (knight.remedy > 99)
+                    knight.remedy = 99;
+
+                if (knight.maidenkiss > 99)
+                    knight.maidenkiss = 99;
+
+                if (knight.phoenixdown > 99)
+                    knight.phoenixdown = 99;
+                // cout << "Remedy: " << knight.remedy << endl 
+                //     << "maidenkiss: " << knight.maidenkiss << endl 
+                //     << "phoenixdown: " << knight.phoenixdown << endl;
                 break;
             }
         }
         numDrug = 0;
         line_i++;
     }
+
+    if (isTiny){isTiny = 0;}
+    if (isFrog){isFrog = 0;}
 }
 
-void hpIs999(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
+void hpIs999(int & HP, int & , int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
 
 }
 
-void hpIsPrime(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
+void hpIsPrime(int & HP, int & , int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
 
 }
 
-void event99th(int & HP, int & level, int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
+void event99th(int & HP, int & , int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
 
 }
 
 bool isMerlin(string name){
+    bool is_M = 0, is_E = 0, is_R = 0, is_L = 0, is_I = 0, is_N = 0;
+
     for (int i = 0; i < name.length(); i++)
     {
-        if (i == 0){
-            if (name[i] != 'm' && name[i] != 'M') return false;
-        }
-        else if (i == 1){
-            if (name[i] != 'e' && name[i] != 'E') return false;
-        }
-        else if (i == 2){
-            if (name[i] != 'r' && name[i] != 'R') return false;
-        }
-        else if (i == 3){
-            if (name[i] != 'l' && name[i] != 'L') return false;
-        }
-        else if (i == 4){
-            if (name[i] != 'i' && name[i] != 'I') return false;
-        }
-        else if (i == 5){
-            if (name[i] != 'n' && name[i] != 'N') return false;
-        }
+        if (name[i] == 'm' && name[i] == 'M')
+            is_M = true;
+
+        else if (name[i] == 'e' && name[i] == 'E')
+            is_E = true;
+
+        else if (name[i] == 'r' && name[i] == 'R')
+            is_R = true;
+
+        else if (name[i] == 'l' && name[i] == 'L')
+            is_L = 1;
+
+        else if (name[i] == 'i' && name[i] == 'I')
+            is_I = 1;
+
+        else if (name[i] == 'n' && name[i] == 'N')
+            is_N = 1;
     }
-    return true;
+
+    if (is_M && is_E && is_R && is_L && is_I && is_N)
+        return true;
+
+    return false;
 }
-void eventEighteen(string file_name, int maxHP, int & HP){
+void eventEighteen(string file_name, int maxHP, int &HP){
     string line, param, number;
 
     ifstream file_input(file_name);
 
     int line_i = 0, n9 = 0;
+
+    int line_len = 0;
 
     while (getline(file_input, line))
     {
@@ -584,19 +643,32 @@ void eventEighteen(string file_name, int maxHP, int & HP){
             line_i++;
             continue;
         }
-        if (isMerlin(line)){
-            if (param.compare("Merlin") == 0 || param.compare("merlin") == 0)
-                HP += 3;
-            else HP += 2;
-            if (HP > maxHP) HP = maxHP;
+        line_len = line.length();
+        string merlin;
+        for (int i = 0; i < line_len - 6; i++){
+            if (line[i] == 'm' || line[i] == 'M'){
+                merlin = line.substr(i, i + 6);
+                // cout << merlin << endl;
+                if (merlin.compare("Merlin") == 0 || merlin.compare("merlin") == 0)
+                    HP += 3;
+                else if (isMerlin(line)){
+                    HP += 2;
+                }
+                if (HP > maxHP) HP = maxHP;
+            }
         }
         line_i++;
     }
+    // cout << "Merlin HP: " << HP << endl;
 }
 
-void traverseEvent(int event_param[], int num_events, string file_param[], int &HP, int &level, int &remedy, int &maidenkiss, int &phoenixdown, int &rescue)
+void postEventProcess(){
+
+}
+
+void traverseEvent(int event_param[], int num_events, string file_param[], Knight &knight, int &rescue)
 {
-    int maxHP = HP;
+    int maxHP = knight.HP;
     rescue = -1;
 
     bool is_event6 = false, is_tiny = false;
@@ -620,85 +692,159 @@ void traverseEvent(int event_param[], int num_events, string file_param[], int &
             
         }
 
-        if (event_code == 0)
-        {
-            eventZero(HP, level, remedy, maidenkiss, phoenixdown, rescue);
-            event_continue = false;
-            break;
+        if (is_tiny || is_frog){
+
+            // if (is_event6 && event6_time > 0)
+            // {
+            //     event6_time--;
+            // }
+            // else if (event6_time == 0)
+            // {
+            //     if (is_tiny)
+            //     {
+            //         knight.HP = knight.HP * 5;
+            //         if (knight.HP > maxHP)
+            //             knight.HP = maxHP;
+            //     }
+            //     is_event6 = false;
+            // }
+
+            // if (is_event7 && event7_time > 0)
+            // {
+            //     event7_time--;
+            // }
+            // else if (event7_time == 0)
+            // {
+            //     if (is_frog)
+            //     {
+            //         knight.level = level_zero;
+            //     }
+            //     is_event7 = false;
+            // }
         }
-        else if (event_code == 1 || event_code == 2 || event_code == 3 || event_code == 4 || event_code == 5)
-        {
-            eventOneToFive(event_code, event + 1, maxHP, HP, level, remedy, maidenkiss, phoenixdown, rescue);
-        }
-        else if (event_code == 6)
-        {
-            is_event6 = true;
-            event6_time = 3;
-            eventSix(is_tiny, event + 1, maxHP, HP, level, remedy, maidenkiss, phoenixdown, rescue);
-        }
-        else if (event_code == 7){
-            if (!is_event7){
-                level_zero = level;
-            }
-            is_event7 = true;
-            event7_time = 7;
-            eventSeven(is_frog, event + 1, maxHP, HP, level, remedy, maidenkiss, phoenixdown, rescue);
-        }
-        else if (event_code == 11){
-            eventEleven(maxHP, HP, level, remedy, maidenkiss, phoenixdown, rescue);
-        }
-        else if (event_code == 12){
-            eventTwelve(HP);
-        }
-        else if (to_string(event_code).find("13") != string::npos){
-            if (file_param[0] != "") {
-                eventThirteen(file_param[0], event_code, maxHP, HP, level, remedy, maidenkiss, phoenixdown, rescue);
-            }
-        }
-        else if (event_code == 16 || event_code == 17 || event_code == 15){
-            eventFifteen2Seventeen(event_code, remedy, maidenkiss, phoenixdown);
-        }
-        else if (event_code == 19){
-            if (file_param[1] != "" && !is_event19){
-                eventNineteen(file_param[1], HP, level, remedy, maidenkiss, phoenixdown, rescue);
-                is_event19 = true;
-            } 
-        }
-        else if (event_code == 99){
-            if (maxHP == 999 || (isPrime(maxHP) && level >= 8) || level >= 10) level = 10;
-            else {
-                rescue = 0;
+
+
+            if (event_code == 0)
+            {
+                eventZero(knight, rescue);
+                event_continue = false;
                 break;
             }
-        }
-        else if (event_code == 18){
-            if (file_param[2] != "" && !is_event18){
-                eventEighteen(file_param[2], maxHP, HP);
-                is_event18 = false;
+            else if (event_code == 1 || event_code == 2 || event_code == 3 || event_code == 4 || event_code == 5)
+            {
+                eventOneToFive(event_code, event + 1, maxHP, knight, rescue);
             }
-        }
+            else if (event_code == 6)
+            {
+                if (is_tiny || is_frog){}
+                else {
+                    is_event6 = true;
+                    event6_time = 3;
+                    eventSix(is_tiny, event + 1, event6_time, maxHP, knight, rescue);
+                }
+            }
+            else if (event_code == 7)
+            {
+                if (!is_event7)
+                {
+                    level_zero = knight.level;
+                }
+
+                if (is_tiny || is_frog) {}
+                else {
+                    is_event7 = true;
+                    event7_time = 7;
+                    eventSeven(is_frog, event + 1, event7_time, maxHP, knight, rescue);
+                }
+            }
+            else if (event_code == 11)
+            {
+                eventEleven(maxHP, knight, rescue);
+            }
+            else if (event_code == 12)
+            {
+                eventTwelve(knight.HP);
+            }
+            else if (to_string(event_code).find("13") != string::npos)
+            {
+                if (file_param[0] != "")
+                {
+                    eventThirteen(file_param[0], event_code, maxHP, knight, rescue);
+                }
+            }
+            else if (event_code == 16 || event_code == 17 || event_code == 15)
+            {
+                eventFifteen2Seventeen(event_code, knight);
+            }
+            else if (event_code == 19)
+            {
+                if (file_param[1] != "" && !is_event19)
+                {
+                    // cout << "Event 19\n";
+                    eventNineteen(file_param[1], knight, rescue, is_tiny, is_frog);
+                    is_event19 = true;
+                }
+            }
+            else if (event_code == 99)
+            {
+                if (maxHP == 999 || (isPrime(maxHP) && knight.level >= 8) || knight.level >= 10)
+                    knight.level = 10;
+                else
+                {
+                    rescue = 0;
+                    break;
+                }
+            }
+            else if (event_code == 18)
+            {
+                if (file_param[2] != "" && !is_event18)
+                {
+                    eventEighteen(file_param[2], maxHP, knight.HP);
+                    is_event18 = false;
+                }
+            }
+
 
         // Sau mỗi sự kiện, nếu rescue = 0 thì hành trình dừng lại, thoát vòng lặp
         if (rescue == 0){
-            display(HP, level, remedy, maidenkiss, phoenixdown, rescue);
+            display(knight.HP, knight.level, knight.remedy, knight.maidenkiss, knight.phoenixdown, rescue);
             return;
         }
 
 
-        if (HP <= 0)
+        if (knight.HP <= 0)
         {
-            if (phoenixdown == 0)
+            if (knight.phoenixdown == 0)
             {
                 rescue = 0;
-                display(HP, level, remedy, maidenkiss, phoenixdown, rescue);
+                display(knight.HP, knight.level, knight.remedy, knight.maidenkiss, knight.phoenixdown, rescue);
                 return;
             }
-            else if (phoenixdown > 0)
+            else if (knight.phoenixdown > 0)
             {
-                phoenixdown--;
-                HP = maxHP;
+                knight.phoenixdown--;
+                knight.HP = maxHP;
                 rescue = -1;
             }
+        }
+
+        // Trong trường hợp nhặt được remedy -> sử dụng cho sự kiện 6: Hóa nhỏ
+        if (knight.remedy > 0){
+            is_event6 = false;
+            is_tiny = false;
+            knight.HP = knight.HP * 5;
+            event6_time = 0;
+            knight.remedy--;
+        }
+
+        // Trong trường hợp nhặt được maidenkiss -> sử dụng cho sự kiện 7: Hóa ếch
+        if (knight.maidenkiss > 0){
+            is_event7 = false;
+            is_frog = false;
+            knight.level = level_zero;
+            event7_time = 0;
+            knight.maidenkiss--;
+
         }
 
         if (is_event6 && event6_time > 0)
@@ -708,8 +854,8 @@ void traverseEvent(int event_param[], int num_events, string file_param[], int &
         else if (event6_time == 0)
         {
             if (is_tiny){
-                HP = HP * 5;
-                if (HP > maxHP) HP = maxHP;
+                knight.HP = knight.HP * 5;
+                if (knight.HP > maxHP) knight.HP = maxHP;
             } 
             is_event6 = false;
         }
@@ -721,7 +867,7 @@ void traverseEvent(int event_param[], int num_events, string file_param[], int &
         else if (event7_time == 0)
         {
             if (is_frog){
-                level = level_zero;
+                knight.level = level_zero;
             } 
             is_event7 = false;
         }
@@ -732,14 +878,14 @@ void traverseEvent(int event_param[], int num_events, string file_param[], int &
         else event_continue = false;
 
         if (event_continue){
-            display(HP, level, remedy, maidenkiss, phoenixdown, rescue);
+            display(knight.HP, knight.level, knight.remedy, knight.maidenkiss, knight.phoenixdown, rescue);
         }
     }
 
     if (rescue == -1)
         rescue = 1;
 
-    display(HP, level, remedy, maidenkiss, phoenixdown, rescue);
+    display(knight.HP, knight.level, knight.remedy, knight.maidenkiss, knight.phoenixdown, rescue);
 }
 
 void display(int HP, int level, int remedy, int maidenkiss, int phoenixdown, int rescue)
@@ -759,6 +905,8 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
     string event_string;
     int num_events;
 
+    Knight knight = Knight(HP, level, remedy, maidenkiss, phoenixdown);
+
     initArray(knight_param, file_param);
     readFile(file_input, knight_param, event_string, file_param, num_events);
 
@@ -767,9 +915,9 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
     initEventArray(event_param, event_string, num_events);
 
     // ******* Knight parameter *********
-    initKnight(knight_param, HP, level, remedy, maidenkiss, phoenixdown, rescue);
+    initKnight(knight_param, knight, rescue);
 
     // ******* Đọc và thao tác với các sự kiện ******
-    traverseEvent(event_param, num_events, file_param, HP, level, remedy, maidenkiss, phoenixdown, rescue);
+    traverseEvent(event_param, num_events, file_param, knight, rescue);
 
 }

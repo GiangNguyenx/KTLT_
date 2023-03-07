@@ -1,0 +1,5 @@
+1. Sự kiện máu = 999
+2. Sự kiện máu = số nguyên tố
+3. Chuỗi merlin trong tên          OK
+4. Các mảng số sự kiện 13
+5. Dùng thuốc ngay tại sự kiện 19
