@@ -1,0 +1,23 @@
+https://coderunner.codepractice.net/api/testcases/C-8dc6-7457033c4c8bf9684291-2e9f-484aU
+https://coderunner.codepractice.net/api/testcases/U-a344-dd796de2f3fbf6f13c04-30bf-476fU
+https://coderunner.codepractice.net/api/testcases/F-97bd-fea0a08e3c01a6226fda-c7d4-42dcU
+
+
+
+--- Code Output ---
+
+HP=2, level=2, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
+HP=2, level=4, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
+HP=2, level=6, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
+HP=2, level=8, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
+HP=2, level=10, remedy=0, maidenkiss=0, phoenixdown=4, rescue=1
+
+
+
+--- System Output ---
+
+HP=2, level=2, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
+HP=2, level=4, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
+HP=2, level=6, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
+HP=2, level=8, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
+HP=2, level=10, remedy=0, maidenkiss=0, phoenixdown=4, rescue=1
