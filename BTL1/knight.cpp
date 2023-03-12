@@ -4,9 +4,6 @@
 #include <fstream>
 #include <string.h>
 #include <sstream>
-// int i = 1;
-// int b = i % 10;
-// int levelO = i > 6 ? (b > 5 ? b : 5) : b;
 
 struct Knight {
     int HP;
@@ -81,7 +78,6 @@ void initEventArray(int arr[], string event, int num_event){
         arr[index] = stoi(word);
         index++;
     }
-    // cout << arr[0] << endl;
 }
 
 void initArray(int knight_param[], string file_param[])
@@ -117,7 +113,6 @@ void eventOneToFive(int event_code, int event, int maxHP, Knight& knight, int &r
     int b = event % 10;
     int levelO = event > 6 ? (b > 5 ? b : 5) : b; // i ~ event
 
-    // cout << b << ' ' << levelO << ' ' << level << ' ' << event << endl;
     if (knight.level > levelO)
     {
         if (knight.level == 10)
@@ -156,7 +151,6 @@ void eventOneToFive(int event_code, int event, int maxHP, Knight& knight, int &r
         }
 
         damage = baseDamage * levelO * 10;
-        // cout << damage << ' ' << levelO << baseDamage << endl;
         knight.HP = knight.HP - (int)damage;
         if (knight.HP <= 0)
         {
@@ -182,7 +176,6 @@ void eventSix(bool &is_tiny, int event, int& event_remain ,int maxHP, Knight& kn
     int levelO = event > 6 ? (b > 5 ? b : 5) : b; // i ~ event
     is_tiny = false;
 
-    // cout << b << ' ' << levelO << ' ' << knight.level << ' ' << event << endl;
     if (knight.level > levelO)
     {
         knight.level += 2;
@@ -218,7 +211,6 @@ void eventSeven(bool &is_frog, int event, int &event_remain, int maxHP, Knight& 
     is_frog = false;
 
     int level_zero = knight.level;
-    // cout << b << ' ' << levelO << ' ' << knight.level << ' ' << event << endl;
     if (knight.level > levelO)
     {
         knight.level += 2;
@@ -247,7 +239,6 @@ int oddNumberSum(int n1){
     int count = 0;
     for (int i = 99; i >= 1; i -= 2){
         if (count == n1) break;
-        // cout << "odd number sum: " << i << endl;
         s1 += i;
         count++;
     }
@@ -612,16 +603,6 @@ void hpIs999(int event_code, Knight &knight, int & rescue){
     else if (event_code == 99){}
 }
 
-void hpIsPrime(int event_code, int maxHP, Knight &knight, int & rescue){
-    if (isPrime(knight.HP)){
-
-    }
-}
-
-void event99th(int & HP, int & , int & remedy, int & maidenkiss, int & phoenixdown, int & rescue){
-
-}
-
 bool isMerlin(string name){
     bool is_M = 0, is_E = 0, is_R = 0, is_L = 0, is_I = 0, is_N = 0;
 
@@ -917,7 +898,6 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
     initArray(knight_param, file_param);
     readFile(file_input, knight_param, event_string, file_param, num_events);
 
-    // cout << "Number" << num_events << endl;
     int event_param[num_events];
     initEventArray(event_param, event_string, num_events);
 
