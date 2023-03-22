@@ -37,13 +37,8 @@ void readFile(string fileName, int line1_param[], string& line2_param, string li
     while (getline(file_input, line))
     {
         stringstream ss(line);
-        // cout << line << endl;
         while (getline(ss, param, delimeter))
         {
-            // getline(ss, param, delimeter);
-        
-            // cout << delimeter << endl;
-            // cout << "param:" << param << endl;
             switch (line_i)
             {
             case 0:
@@ -67,7 +62,6 @@ void readFile(string fileName, int line1_param[], string& line2_param, string li
         line_i++;
     }
     num_event = line2_i;
-    // cout << "Read file" << line2_i << endl;
 }
 
 void initEventArray(int arr[], string event, int num_event){
@@ -276,13 +270,12 @@ bool isFibonacci(int HP){
         else if (sum > HP) return 0;
         i = prev_sum;
         prev_sum = sum;
-        // cout << prev_sum << " " << i << endl;
+
     }
     return 1;
 }
 int downToNearestFibonacci(int HP){
     for (int i = HP - 1; i >= 1; i--){
-        // cout <<  "i: " << i << endl;
         if (isFibonacci(i)) return i;
     }
 
@@ -302,7 +295,6 @@ void mushroomType1(int & HP, int arr[], int size) {
         if (arr[i] <= arr[mini])
             mini = i;
     }
-    // cout <<HP << " " << maxi << ' ' << mini << endl;
     HP = HP - (maxi + mini);
 }
 bool isMountainArray(int arr[], int size, int& mtx, int& mti){
@@ -354,7 +346,6 @@ bool isMountainArray(int arr[], int size, int& mtx, int& mti){
 void mushroomType2(int& HP, int arr[], int size){
     int mtx = -2, mti = -3;
     isMountainArray(arr, size, mtx, mti);
-    // cout << mtx << ' ' << mti << endl;
     HP = HP - (mtx + mti);
 }
 void mushroomType3(int & HP, int arr[], int size){
@@ -373,7 +364,6 @@ void mushroomType3(int & HP, int arr[], int size){
             mini = i;
     }
 
-    // cout << maxi << " " << mini << endl;
     HP = HP - (maxi + mini);
 }
 void mushroomType4(int & HP, int arr[], int size){
@@ -407,7 +397,6 @@ void mushroomType4(int & HP, int arr[], int size){
     }
 
     if (max2_3i >= 0) max2_3x = arr[max2_3i];
-    // cout << max2_3x << ' ' << max2_3i << endl;
     HP = HP - (max2_3x + max2_3i);
 }
 void revertToRootArray(int root_array[], int used_array[], int size){
@@ -415,12 +404,7 @@ void revertToRootArray(int root_array[], int used_array[], int size){
         used_array[i] = root_array[i];
     }
 }
-void printArray(int array[], int size){
-    for (int i = 0; i < size; i++){
-        cout << array[i] << ' ';
-    }
-    cout << endl;
-}
+
 void eventThirteen(string file_name, int event_code, int maxHP, Knight& knight, int & rescue){
     string event_code_str = to_string(event_code);
 
@@ -434,25 +418,21 @@ void eventThirteen(string file_name, int event_code, int maxHP, Knight& knight, 
     stringstream ss(line);
     getline(ss, param);
     size = stoi(param);
-    // cout << "size: " << size << endl;
 
     int arr1[size];
 
     while (getline(file_input, line))
     {
-        // cout << file_name;
         stringstream ss(line);
         while (getline(ss, param, ','))
         {
             arr1[line_i] = stoi(param);
-            // cout << arr1[line_i] << endl;
             line_i++;
         }
     }
 
     int arr2[size], arr3[size], arr4[size];
     for (int i = 0; i < size; i++){
-        // cout <<number[i] << ' ';
         arr2[i] = arr1[i];
         arr3[i] = arr1[i];
         arr4[i] = arr1[i];
@@ -462,28 +442,18 @@ void eventThirteen(string file_name, int event_code, int maxHP, Knight& knight, 
         switch (event_code_str[i])
         {
         case '1':
-            // printArray(arr1, size);
             mushroomType1(knight.HP, arr1, size);
-            // cout << "Type 1 " << knight.HP << endl;
             break;
         case '2':
-            // printArray(arr2, size);
             mushroomType2(knight.HP, arr2, size);
-            // cout << "Type 2 " << knight.HP << endl;
             break;
         case '3':
             revertToRootArray(arr1, arr3, size);
-            // printArray(arr3, size);
             mushroomType3(knight.HP, arr3, size);
-            // printArray(arr3, size);
-            // cout << "Type 3 " << knight.HP << endl;
             break;
         case '4':
             revertToRootArray(arr1, arr4, size);
-            // printArray(arr4, size);
             mushroomType4(knight.HP, arr4, size);
-            // printArray(arr4, size);
-            // cout << "Type 4 " << knight.HP << endl;
             break;
         default:
             break;
@@ -530,14 +500,13 @@ void eventNineteen(string file_name, Knight& knight, int & rescue, bool &isTiny,
 
     int numDrug = 0, drug;
 
-    // cout << file_name << endl;
+
     while (getline(file_input, line))
     {
         stringstream ss(line);
-        // cout << line << endl;
+
         while (getline(ss, param, ' '))
         {
-            // cout << param << endl;
             switch (line_i)
             {
             case 0:
@@ -548,7 +517,6 @@ void eventNineteen(string file_name, Knight& knight, int & rescue, bool &isTiny,
                 break;
             default:
                 drug = stoi(param);
-                // cout << "drug: " << drug << endl;
                 if ((drug == 16 || drug == 17 || drug == 18) && numDrug < 3){
                     if (drug == 16){
                         knight.remedy++;
@@ -571,9 +539,7 @@ void eventNineteen(string file_name, Knight& knight, int & rescue, bool &isTiny,
 
                 if (knight.phoenixdown > 99)
                     knight.phoenixdown = 99;
-                // cout << "Remedy: " << knight.remedy << endl 
-                //     << "maidenkiss: " << knight.maidenkiss << endl 
-                //     << "phoenixdown: " << knight.phoenixdown << endl;
+
                 break;
             }
         }
@@ -627,7 +593,6 @@ bool isMerlin(string name){
             is_N = 1;
     }
 
-    // cout << is_M << is_E << is_R << is_L << is_I << is_N << endl;
     if (is_M && is_E && is_R && is_L && is_I && is_N)
         return true;
 
@@ -656,19 +621,16 @@ void eventEighteen(string file_name, int maxHP, int &HP){
 
         if ((merlinPos != string::npos) || (merlinUpPos != string::npos)) {
             HP += 3;
-            // cout << "+3\n";
             fullMerlin = true;
         }
 
         if (isMerlin(line) && !fullMerlin){
-            // cout << "Merlin: " << line << "+2\n";
             HP += 2;
         }
         if (HP > maxHP) HP = maxHP;
         line_i++;
         fullMerlin = false;
     }
-    // cout << "Merlin HP: " << HP << endl;
 }
 
 void traverseEvent(int event_param[], int num_events, string file_param[], Knight &knight, int &rescue)
@@ -684,7 +646,7 @@ void traverseEvent(int event_param[], int num_events, string file_param[], Knigh
     bool event_continue = true;
     int level_zero = 0;
 
-    // cout << num_events << endl;
+
     for (int event = 0; event < num_events; event++)
     {
         event_continue = true;
@@ -765,7 +727,6 @@ void traverseEvent(int event_param[], int num_events, string file_param[], Knigh
         {
             if (file_param[1] != "" && !is_event19)
             {
-                // cout << "Event 19\n";
                 eventNineteen(file_param[1], knight, rescue, is_tiny, is_frog);
                 is_event19 = true;
             }
