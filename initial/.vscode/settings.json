@@ -1,0 +1,13 @@
+{
+  "files.associations": {
+    "iterator": "cpp",
+    "istream": "cpp",
+    "tuple": "cpp",
+    "xutility": "cpp",
+    "memory": "cpp",
+    "system_error": "cpp",
+    "xmemory": "cpp",
+    "xlocale": "cpp",
+    "xlocnum": "cpp"
+  }
+}

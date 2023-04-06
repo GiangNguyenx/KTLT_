@@ -7,18 +7,26 @@ https://coderunner.codepractice.net/api/testcases/u-843b-56a51f13d1ff311dbb28-30
 
 --- Code Output ---
 
-HP=2, level=2, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
-HP=2, level=4, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
-HP=2, level=6, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
-HP=2, level=8, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
-HP=2, level=10, remedy=0, maidenkiss=0, phoenixdown=4, rescue=1
+HP=89, level=7, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=104, level=7, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=104, level=8, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=104, level=9, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=104, level=10, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=104, level=10, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=104, level=10, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=140, level=10, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=89, level=10, remedy=1, maidenkiss=1, phoenixdown=1, rescue=1
 
 
 
 --- System Output ---
 
-HP=2, level=2, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
-HP=2, level=4, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
-HP=2, level=6, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
-HP=2, level=8, remedy=0, maidenkiss=0, phoenixdown=4, rescue=-1
-HP=2, level=10, remedy=0, maidenkiss=0, phoenixdown=4, rescue=1
+HP=89, level=7, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=89, level=7, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=89, level=8, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=89, level=9, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=89, level=10, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=89, level=10, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=89, level=10, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=140, level=10, remedy=1, maidenkiss=1, phoenixdown=1, rescue=-1
+HP=89, level=10, remedy=1, maidenkiss=1, phoenixdown=1, rescue=1
