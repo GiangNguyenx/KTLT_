@@ -1,7 +1,11 @@
 #include "knight2.h"
 
 /* * * BEGIN implementation of class BaseBag * * */
-
+BaseBag::BaseBag(BaseKnight *knight, int phoenixdownI, int antidote)
+{
+    this->item = nullptr;
+    this->knight = nullptr;
+}
 /* * * END implementation of class BaseBag * * */
 
 
@@ -92,45 +96,98 @@ ArmyKnights::ArmyKnights(const string &file_armyknights)
     this->numKnights = 0;
 
     /* 
-    Read file with input = "file_armyknights"
-    File format:
-        <num_of_knights>
-        <HP> <level> <phoenixdown> <gil> <antidote>
+        Read file with input = "file_armyknights"
+        File format:
+            <num_of_knights>
+            <HP> <level> <phoenixdown> <gil> <antidote>
     */
-    ifstream readEventFile(file_armyknights);
+    ifstream readArmyFile(file_armyknights);
     string line, param;
     int lineIndex = 1, knightIndex = 0, paramIndex = 0;
-    int id, hp, maxhp, level, gil, antidote;
+    int id, hp, maxhp, level, gil, antidote, phoenixdownI;
     int knightParams[6];
 
-    while(getline(readEventFile, line)){
+    while(getline(readArmyFile, line)){
         stringstream ss(line);
         while(getline(ss, param, ' ')){
             if (lineIndex == 1){
                 this->numKnights = stoi(param);
+                this->currentNumKnights = this->numKnights;
                 this->knightList = new BaseKnight*[this->numKnights];
                 break;
             }
             else {
                 knightParams[paramIndex++] = stoi(param);
-                break;
+                // break;
             }
         }
         
         if (lineIndex != 1){
-            id = knightParams[0];
-            hp = knightParams[1];
-            maxhp = knightParams[2];
-            level = knightParams[3];
-            gil = knightParams[4];
-            antidote = knightParams[5];
-
-            this->knightList[knightIndex++] = BaseKnight::create(id, hp, maxhp, level, gil, antidote);
+            id = knightIndex;
+            hp = knightParams[0];
+            maxhp = knightParams[0];
+            level = knightParams[1];
+            phoenixdownI = knightParams[2];
+            gil = knightParams[3];
+            antidote = knightParams[4];
+            // print << id << " " << hp << " " << maxhp << " " << 
+            this->knightList[knightIndex++] = BaseKnight::create(id, maxhp, level, gil, antidote, phoenixdownI);
         }
         paramIndex = 0;
         lineIndex++;
     }
 
+}
+
+ArmyKnights::~ArmyKnights()
+{
+    for (int i = 0; i < this->numKnights; i++){
+        delete this->knightList[i];
+    }
+    delete[] this->knightList;
+}
+
+bool ArmyKnights::fight(BaseOpponent *opponent)
+{
+
+    return false;
+}
+
+bool ArmyKnights::adventure(Events *events)
+{
+    this->printInfo();
+    return false;
+}
+
+int ArmyKnights::count() const
+{
+    return this->currentNumKnights;
+}
+
+BaseKnight *ArmyKnights::lastKnight() const
+{
+    if (this->currentNumKnights == 0) return nullptr;
+    return this->knightList[this->currentNumKnights - 1];
+}
+
+bool ArmyKnights::hasPaladinShield() const
+{
+    return false;
+}
+
+bool ArmyKnights::hasLancelotSpear() const
+{
+    return false;
+}
+
+bool ArmyKnights::hasGuinevereHair() const
+{
+    return false;
+}
+
+bool ArmyKnights::hasExcaliburSword() const
+{
+    return false;
 }
 
 /* * * END implementation of class ArmyKnights * * */
@@ -142,6 +199,103 @@ KnightAdventure::KnightAdventure() {
     events = nullptr;
 }
 
+KnightAdventure::~KnightAdventure()
+{
+    delete armyKnights;
+    delete events;
+}
+
+void KnightAdventure::loadArmyKnights(const string &file_armyknights)
+{
+    this->armyKnights = new ArmyKnights(file_armyknights);
+}
+
+void KnightAdventure::loadEvents(const string &file_events)
+{
+    this->events = new Events(file_events);
+}
+
+void KnightAdventure::startCombat(int eventOrder)
+{
+    // cout << eventOrder << endl;
+    cout << this->armyKnights->lastKnight()->getMaxHP() << ' ' << armyKnights->lastKnight()->getLevel() << ' ';
+        MadBear *opponent = new MadBear(eventOrder, this->events->get(eventOrder), this->armyKnights);
+        // cout << "---- " << eventOrder << ' ' << this->events->get(eventOrder) << endl;
+        opponent->tradeDame(armyKnights->lastKnight()->getHP(), armyKnights->lastKnight()->getLevel(), armyKnights->lastKnight()->getGil());
+        cout << armyKnights->lastKnight()->getHP() << endl;
+    switch (eventOrder)
+    {
+    case 1:
+    {
+    }
+    break;
+    case 2:
+        /* code */
+        break;
+    case 3:
+        /* code */
+        break;
+    case 4:
+        /* code */
+        break;
+    case 5:
+        /* code */
+        break;
+    case 6:
+        /* code */
+        break;
+    case 7:
+        /* code */
+        break;
+    case 8:
+        /* code */
+        break;
+    case 9:
+        /* code */
+        break;
+    case 10:
+        /* code */
+        break;
+    case 11:
+        /* code */
+        break;
+    case 112:
+        /* code */
+        break;
+    case 113:
+        /* code */
+        break;
+    case 114:
+        /* code */
+        break;
+    case 95:
+        /* code */
+        break;
+    case 96:
+        /* code */
+        break;
+    case 97:
+        /* code */
+        break;
+    case 98:
+        /* code */
+        break;
+    case 99:
+        /* code */
+        break;
+    default:
+        break;
+    }
+}
+
+void KnightAdventure::run()
+{
+    for (int event_index = 0; event_index < this->events->count(); event_index++){
+        // int eventOrder = this->events->get(event_index);
+        this->startCombat(event_index);
+    }
+}
+
 /* * * END implementation of class KnightAdventure * * */
 
 
@@ -151,10 +305,10 @@ Events::Events(const string &file_events)
     this->numEvents = 0;
     this->events = nullptr;
     /* 
-    Read file with input = "file_events"
-    File format:
-        <num>
-        <event_1> <event_2> <event_3> <event_4> ...    // Has <num> events
+        Read file with input = "file_events"
+        File format:
+            <num>
+            <event_1> <event_2> <event_3> <event_4> ...    // Has <num> events
     */
     ifstream readEventFile(file_events);
     string line, event;
@@ -202,6 +356,11 @@ PaladinKnight::PaladinKnight(int id, int maxhp, int level, int gil, int antidote
     this->level = level;
     this->gil = gil;
     this->antidote = antidote;
+    this->phoenixdownI = phoenixdownI;
+}
+
+void PaladinKnight::fight(BaseOpponent *opponent)
+{
 }
 
 LancelotKnight::LancelotKnight(int id, int maxhp, int level, int gil, int antidote, int phoenixdownI)
@@ -212,6 +371,11 @@ LancelotKnight::LancelotKnight(int id, int maxhp, int level, int gil, int antido
     this->level = level;
     this->gil = gil;
     this->antidote = antidote;
+    this->phoenixdownI = phoenixdownI;
+}
+
+void LancelotKnight::fight(BaseOpponent *opponent)
+{
 }
 
 DragonKnight::DragonKnight(int id, int maxhp, int level, int gil, int antidote, int phoenixdownI)
@@ -222,6 +386,11 @@ DragonKnight::DragonKnight(int id, int maxhp, int level, int gil, int antidote, 
     this->level = level;
     this->gil = gil;
     this->antidote = antidote;
+    this->phoenixdownI = phoenixdownI;
+}
+
+void DragonKnight::fight(BaseOpponent *opponent)
+{
 }
 
 NormalKnight::NormalKnight(int id, int maxhp, int level, int gil, int antidote, int phoenixdownI)
@@ -232,7 +401,35 @@ NormalKnight::NormalKnight(int id, int maxhp, int level, int gil, int antidote, 
     this->level = level;
     this->gil = gil;
     this->antidote = antidote;
+    this->phoenixdownI = phoenixdownI;
+}
+
+void NormalKnight::fight(BaseOpponent *opponent)
+{
 }
 
 /* * * END implementation of Knights classes * * */
+
+
+/* * * BEGIN implementation of Opponents classes * * */
+int BaseOpponent::calcLevelO(int eventOrder, int eventCode)
+{
+    return (eventOrder + eventCode) % 10 + 1;
+}
+MadBear::MadBear(int eventOrder, int eventCode, ArmyKnights* knights)
+{
+    this->eventOrder = eventOrder;
+    this->eventCode = eventCode;
+    this->knights = knights;
+}
+
+void MadBear::tradeDame(int HP, int level, int gil)
+{
+    int levelO = BaseOpponent::calcLevelO(this->eventOrder, this->eventCode);
+    // cout << levelO << ' ' << this->eventOrder << ' ' << this->eventCode << "----\n";
+    HP = HP - this->baseDamage * (levelO - level);
+    this->knights->lastKnight()->setHP(HP);
+}
+
+/* * * END implementation of Opponents classes * * */
 
