@@ -1,0 +1,8 @@
+Luồng chạy:
+1) Gọi vào KnightAdventure::loadArmyKnights để đọc file_armyknights chứa thông tin hiệp sĩ.
+2) Gọi vào KnightAdventure::loadEvents để đọc file_events chứa thông sự kiện
+3) Gọi vào KnightAdventure::run để khởi chạy
+  3.1) Trong lớp KnightAdventure:
+  ->  Con trỏ armyKnights chứa thông tin hiệp sĩ, lưu từ việc gọi hàm loadArmyKnights(const string)
+  ->  Con trỏ events chứa thông tin sự kiện, lưu từ việc gọi hàm loadEvents(const string)
+  

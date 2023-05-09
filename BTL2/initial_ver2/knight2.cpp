@@ -8,7 +8,9 @@ BaseBag::BaseBag(BaseKnight *knight, int phoenixdownI, int antidote)
 }
 /* * * END implementation of class BaseBag * * */
 
-
+int setLimitGil(int gil){
+    return gil > 999? 999 : gil;
+}
 /* * * BEGIN implementation of class BaseKnight * * */
 bool isPrime(int n){
     for (int i = 2; i < n; i++){
@@ -217,38 +219,57 @@ void KnightAdventure::loadEvents(const string &file_events)
 
 void KnightAdventure::startCombat(int eventOrder)
 {
+    int eventCode = events->get(eventOrder);
     // cout << eventOrder << endl;
     cout << this->armyKnights->lastKnight()->getMaxHP() << ' ' << armyKnights->lastKnight()->getLevel() << ' ';
-        MadBear *opponent = new MadBear(eventOrder, this->events->get(eventOrder), this->armyKnights);
-        // cout << "---- " << eventOrder << ' ' << this->events->get(eventOrder) << endl;
-        opponent->tradeDame(armyKnights->lastKnight()->getHP(), armyKnights->lastKnight()->getLevel(), armyKnights->lastKnight()->getGil());
-        cout << armyKnights->lastKnight()->getHP() << endl;
-    switch (eventOrder)
+    cout << armyKnights->lastKnight()->getHP() << ' ' << armyKnights->lastKnight()->getGil() << endl;
+    switch (eventCode)
     {
     case 1:
     {
+        MadBear *opponent = new MadBear(eventOrder, this->events->get(eventOrder), this->armyKnights);
+        // cout << "---- " << eventOrder << ' ' << this->events->get(eventOrder) << endl;
+        opponent->tradeDame(armyKnights->lastKnight()->getHP(), armyKnights->lastKnight()->getLevel(), armyKnights->lastKnight()->getGil());
     }
     break;
     case 2:
-        /* code */
-        break;
+    {
+        Bandit *opponent = new Bandit(eventOrder, events->get(eventOrder), this->armyKnights);
+        opponent->tradeDame(armyKnights->lastKnight()->getHP(), armyKnights->lastKnight()->getLevel(), armyKnights->lastKnight()->getGil());
+    }
+    break;
     case 3:
-        /* code */
+    {
+        LordLupin *opponent = new LordLupin(eventOrder, events->get(eventOrder), this->armyKnights);
+        opponent->tradeDame(armyKnights->lastKnight()->getHP(), armyKnights->lastKnight()->getLevel(), armyKnights->lastKnight()->getGil());
+    }
         break;
     case 4:
-        /* code */
+    {
+        Elf *opponent = new Elf(eventOrder, events->get(eventOrder), this->armyKnights);
+        opponent->tradeDame(armyKnights->lastKnight()->getHP(), armyKnights->lastKnight()->getLevel(), armyKnights->lastKnight()->getGil());
+    }
         break;
     case 5:
-        /* code */
+    {
+        Troll *opponent = new Troll(eventOrder, events->get(eventOrder), this->armyKnights);
+        opponent->tradeDame(armyKnights->lastKnight()->getHP(), armyKnights->lastKnight()->getLevel(), armyKnights->lastKnight()->getGil());
+    }
         break;
     case 6:
-        /* code */
+    {
+        Tornbery *opponent = new Tornbery(eventOrder, events->get(eventOrder), this->armyKnights);
+        opponent->tradeDame(armyKnights->lastKnight()->getHP(), armyKnights->lastKnight()->getLevel(), armyKnights->lastKnight()->getGil());
+    }
         break;
     case 7:
-        /* code */
+    {
+        QueenOfCards* opponent = new QueenOfCards(eventOrder, events->get(eventOrder), this->armyKnights);
+        opponent->tradeDame(armyKnights->lastKnight()->getHP(), armyKnights->lastKnight()->getLevel(), armyKnights->lastKnight()->getGil());
+    }
         break;
     case 8:
-        /* code */
+        
         break;
     case 9:
         /* code */
@@ -291,8 +312,9 @@ void KnightAdventure::startCombat(int eventOrder)
 void KnightAdventure::run()
 {
     for (int event_index = 0; event_index < this->events->count(); event_index++){
-        // int eventOrder = this->events->get(event_index);
+        // int eventCode = this->events->get(event_index);
         this->startCombat(event_index);
+        this->armyKnights->printInfo();
     }
 }
 
@@ -412,24 +434,143 @@ void NormalKnight::fight(BaseOpponent *opponent)
 
 
 /* * * BEGIN implementation of Opponents classes * * */
+void BaseOpponent::tradeDame(int HP, int level, int eventCode)
+{
+    int levelO = BaseOpponent::calcLevelO(this->eventOrder, this->eventCode);
+    // cout << levelO << ' ' << this->eventOrder << ' ' << this->eventCode << "----\n";
+
+    if (eventCode >=1 && eventCode <= 5){
+        if (knights->lastKnight()->getLevel() < levelO) {
+            HP = HP - this->baseDamage * (levelO - level);
+            this->knights->lastKnight()->setHP(HP);
+        }
+        else if (knights->lastKnight()->getLevel() >= levelO){
+            knights->lastKnight()->setGil(setLimitGil(knights->lastKnight()->getGil() + this->gil));
+        }
+    }
+    else if (eventCode == 6){
+        if (knights->lastKnight()->getLevel() >= levelO){
+            int newLevel = knights->lastKnight()->getLevel();
+            knights->lastKnight()->setLevel(newLevel + 1);
+        }
+        else if (knights->lastKnight()->getLevel() < levelO) {
+            
+        }
+    }
+    else if (eventCode == 7){
+        if (knights->lastKnight()->getLevel() >= levelO){
+            int newLevel = knights->lastKnight()->getLevel();
+            knights->lastKnight()->setLevel(newLevel + 1);
+        }
+        else if (knights->lastKnight()->getLevel() < levelO) {
+            
+        }
+    }
+    else if (eventCode == 8){
+
+    }
+    else if (eventCode == 9){
+
+    }
+    else if (eventCode == 10){
+
+    }
+    else if (eventCode == 11){
+
+    }
+}
+
 int BaseOpponent::calcLevelO(int eventOrder, int eventCode)
 {
     return (eventOrder + eventCode) % 10 + 1;
 }
 MadBear::MadBear(int eventOrder, int eventCode, ArmyKnights* knights)
 {
+    this->gil = 100;
+    this->baseDamage = 10;
+    this->eventOrder = eventOrder;
+    this->eventCode = eventCode;
+    this->knights = knights;
+}
+// void MadBear::tradeDame(int HP, int level, int gil)
+// {
+//     int levelO = BaseOpponent::calcLevelO(this->eventOrder, this->eventCode);
+//     // cout << levelO << ' ' << this->eventOrder << ' ' << this->eventCode << "----\n";
+    
+//     if (knights->lastKnight()->getLevel() < levelO) {
+//         HP = HP - this->baseDamage * (levelO - level);
+//         this->knights->lastKnight()->setHP(HP);
+//     }
+//     else if (knights->lastKnight()->getLevel() >= levelO){
+//         knights->lastKnight()->setGil(setLimitGil(knights->lastKnight()->getGil() + this->gil));
+//     }
+// }
+
+Bandit::Bandit(int, int, ArmyKnights *knights)
+{
+    this->gil = 150;
+    this->baseDamage = 15;
     this->eventOrder = eventOrder;
     this->eventCode = eventCode;
     this->knights = knights;
 }
 
-void MadBear::tradeDame(int HP, int level, int gil)
-{
-    int levelO = BaseOpponent::calcLevelO(this->eventOrder, this->eventCode);
-    // cout << levelO << ' ' << this->eventOrder << ' ' << this->eventCode << "----\n";
-    HP = HP - this->baseDamage * (levelO - level);
-    this->knights->lastKnight()->setHP(HP);
-}
+// void Bandit::tradeDame(int HP, int level, int)
+// {
+//     int levelO = BaseOpponent::calcLevelO(this->eventOrder, this->eventCode);
+//     // cout << levelO << ' ' << this->eventOrder << ' ' << this->eventCode << "----\n";
+    
+//     if (knights->lastKnight()->getLevel() < levelO) {
+//         HP = HP - this->baseDamage * (levelO - level);
+//         this->knights->lastKnight()->setHP(HP);
+//     }
+//     else if (knights->lastKnight()->getLevel() >= levelO){
+//         knights->lastKnight()->setGil(setLimitGil(knights->lastKnight()->getGil() + this->gil));
+//     }
+// }
 
+Tornbery::Tornbery(int, int, ArmyKnights *)
+{
+    this->gil = 0;
+    this->baseDamage = 0;
+    this->eventOrder = eventOrder;
+    this->eventCode = eventCode;
+    this->knights = knights;
+}
 /* * * END implementation of Opponents classes * * */
 
+QueenOfCards::QueenOfCards(int, int, ArmyKnights *)
+{
+    this->gil = 0;
+    this->baseDamage = 0;
+    this->eventOrder = eventOrder;
+    this->eventCode = eventCode;
+    this->knights = knights;
+}
+
+LordLupin::LordLupin(int, int, ArmyKnights *)
+{
+    this->gil = 0;
+    this->baseDamage = 0;
+    this->eventOrder = eventOrder;
+    this->eventCode = eventCode;
+    this->knights = knights;
+}
+
+Elf::Elf(int, int, ArmyKnights *)
+{
+    this->gil = 0;
+    this->baseDamage = 0;
+    this->eventOrder = eventOrder;
+    this->eventCode = eventCode;
+    this->knights = knights;
+}
+
+Troll::Troll(int, int, ArmyKnights *)
+{
+    this->gil = 0;
+    this->baseDamage = 0;
+    this->eventOrder = eventOrder;
+    this->eventCode = eventCode;
+    this->knights = knights;
+}

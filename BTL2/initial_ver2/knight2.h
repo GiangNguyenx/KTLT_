@@ -29,24 +29,48 @@ public:
 class BaseOpponent {
     // BaseOpponent(BaseOpponent * opponent);
 protected:
-    virtual void tradeDame(){};
+    ArmyKnights* knights;
+    int baseDamage;
+    int gil;
+    int eventOrder, eventCode;
+public:
+    void tradeDame(int HP, int, int);
     static int calcLevelO(int eventOrder, int eventCode);
 };
 class MadBear: public BaseOpponent {
-    int baseDamage = 10;
-    int gil = 100;
-    int eventOrder, eventCode;
-    ArmyKnights* knights;
+    // int baseDamage = 10;
+    // int gil = 100;
+    // int eventOrder, eventCode;
+    // ArmyKnights* knights;
 public:
     MadBear(int, int, ArmyKnights*);
-    void tradeDame(int HP, int, int);
+    // void tradeDame(int HP, int, int);
 };
-class Bandit: public BaseOpponent {};
-class LordLupin: public BaseOpponent {};
-class Elf: public BaseOpponent {};
-class Troll: public BaseOpponent {};
-class Tornbery: public BaseOpponent {};
-class QueenOfCards: public BaseOpponent {};
+class Bandit: public BaseOpponent {
+public:
+    Bandit(int, int, ArmyKnights*);
+    // void tradeDame(int, int, int);
+};
+class Tornbery: public BaseOpponent {
+public:
+    Tornbery(int, int, ArmyKnights*);
+};
+class QueenOfCards: public BaseOpponent {
+public:
+    QueenOfCards(int, int, ArmyKnights*);
+};
+class LordLupin: public BaseOpponent {
+public:
+    LordLupin(int, int, ArmyKnights *);
+};
+class Elf: public BaseOpponent {
+public:
+    Elf(int, int, ArmyKnights *);
+};
+class Troll: public BaseOpponent {
+public:
+    Troll(int, int, ArmyKnights*);
+};
 class NinaDeRings: public BaseOpponent {};
 class DurianGarden: public BaseOpponent {};
 class OmegaWeapon: public BaseOpponent {};
@@ -70,8 +94,8 @@ public:
     void setID(int id) { this->id = id;}
     void setHP(int hp) { this->hp = hp;}
     void setMaxHP(int maxhp) {this->maxhp = maxhp;}
-    void setLevel(int level) {this->level = level;}
-    void setGil(int gil) {this->gil = gil;}
+    void setLevel(int level) {this->level = level > 10? 10: level;}
+    void setGil(int gil) {this->gil = gil > 999? 999: gil;}
     void setAntidote(int antidote) {this->antidote = antidote;}
     int getID() const { return id; }
     int getMaxHP() const { return maxhp; }
