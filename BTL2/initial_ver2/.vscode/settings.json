@@ -8,6 +8,9 @@
     "system_error": "cpp",
     "xmemory": "cpp",
     "xlocale": "cpp",
-    "xlocnum": "cpp"
+    "xlocnum": "cpp",
+    "ostream": "cpp",
+    "iostream": "cpp",
+    "xstring": "cpp"
   }
 }

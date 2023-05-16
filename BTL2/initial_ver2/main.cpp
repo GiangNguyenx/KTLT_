@@ -20,6 +20,7 @@ int main(int argc, char ** argv) {
     knightAdventure->loadArmyKnights(file_armyknights);
     knightAdventure->loadEvents(file_events);
     knightAdventure->run();
+    // cout << "file_armyknights\n";
 
     delete knightAdventure;
 
