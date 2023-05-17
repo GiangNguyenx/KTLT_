@@ -114,7 +114,7 @@ int setLimitGil(int gil){
 /* * * BEGIN implementation of class BaseKnight * * */
 bool isPrime(int n){
     if (n <= 2) return 0;
-    for (int i = 2; i < sqrt(n); i++){
+    for (int i = 2; i <= sqrt(n); i++){
         if (n % i == 0){return 0;}
     }
 
@@ -182,6 +182,7 @@ bool BaseKnight::checkConditionForHp()
         return true;
     } 
     if (this->gil >= 100 && this->hp <= 0){
+        // cout << "Here\n";
         this->hp = this->maxhp / 2;
         this->gil = this->gil - 100;
         return true;
