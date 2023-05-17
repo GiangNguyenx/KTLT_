@@ -291,9 +291,9 @@ bool ArmyKnights::fightMinor(int eventOrder, int opponentType)
 
         if (knightList[i]->getHP() <= 0) deleteKnightWithIndex(i);
         else {
-            knightList[i]->setGil(knightList[i]->getGil() + gil);
+            // cout << knightList[i]->getGil()  << endl;
+            // knightList[i]->setGil(knightList[i]->getGil() + gil);
             int knightGil = knightList[i]->getGil();
-
             if (knightGil > 999){
                 knightList[i]->setGil(999);
                 passGilToPreKnight(knightGil - 999, i - 1);
@@ -901,7 +901,7 @@ void NormalKnight::fight(BaseOpponent *opponent)
     int opponentType = opponent->getTypeOfOpponent();
         // cout << "Normal Knight\n";
     if (this->level >= opponent->getLevel()) {
-        if (opponentType == 5) winningWithMinor(opponent);
+        if (opponentType <= 5) winningWithMinor(opponent);
         else if (opponentType == 6) winningWithTornbery();
         else winningWithQueen();
     }
