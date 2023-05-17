@@ -289,7 +289,10 @@ bool ArmyKnights::fightMinor(int eventOrder, int opponentType)
         knightList[i]->fight(opponent);
         // cout << knightList[i]->getHP() << endl;
 
-        if (knightList[i]->getHP() <= 0) deleteKnightWithIndex(i);
+        if (knightList[i]->getHP() <= 0){
+            deleteKnightWithIndex(i);
+            break;
+        } 
         else {
             // cout << knightList[i]->getGil()  << endl;
             // knightList[i]->setGil(knightList[i]->getGil() + gil);
@@ -319,6 +322,7 @@ bool ArmyKnights::fightTornbery(int eventOrder)
         // cout << knightList[i]->getHP();
         if (knightList[i]->getHP() <= 0) {
             deleteKnightWithIndex(i);
+            break;
             // cout << "Torn: " << (knightList[0] == nullptr);
         }
         else { break; }
@@ -389,8 +393,7 @@ bool ArmyKnights::fightOmegaWeapon()
 
     for (int i = numKnights - 1; i >= 0; i--){
         bool cond = (knightList[i]->getKnightType() == DRAGON) 
-                    || (knightList[i]->getLevel() == 10 )
-                    && (knightList[i]->getHP() == knightList[i]->getMaxHP());
+                    || ((knightList[i]->getLevel() == 10) && (knightList[i]->getHP() == knightList[i]->getMaxHP()));
         if (cond) {
             equipments.hasDefeatedByOmega = true;
             knightList[i]->setLevel(10);
@@ -400,13 +403,16 @@ bool ArmyKnights::fightOmegaWeapon()
         else {
             knightList[i]->setHP(0);
             knightList[i]->checkConditionForHp();
-            if (knightList[i]->getHP() <= 0) deleteKnightWithIndex(i);
+            if (knightList[i]->getHP() <= 0){
+                deleteKnightWithIndex(i);
+                break;
+            } 
             else return 1;
         }
 
         if (numKnights == 0) return 0;
     }
-    return false;
+    return true;
 }
 
 bool ArmyKnights::fightHades()
@@ -425,13 +431,16 @@ bool ArmyKnights::fightHades()
         else {
             knightList[i]->setHP(0);
             knightList[i]->checkConditionForHp();
-            if (knightList[i]->getHP() <= 0) deleteKnightWithIndex(i);
+            if (knightList[i]->getHP() <= 0){
+                deleteKnightWithIndex(i);
+                break;
+            } 
             else return 1;
         }
 
         if (numKnights == 0) return 0;
     }
-    return false;
+    return true;
 }
 
 bool ArmyKnights::fightUltimecia()
