@@ -113,7 +113,8 @@ int setLimitGil(int gil){
 }
 /* * * BEGIN implementation of class BaseKnight * * */
 bool isPrime(int n){
-    if (n <= 2) return 0;
+    if (n < 2) return 0;
+    if (2 == n) return true;
     for (int i = 2; i <= sqrt(n); i++){
         if (n % i == 0){return 0;}
     }
@@ -125,15 +126,19 @@ void splitNumber(int n, int& a, int& b, int& c){
         This function support to split a abc-integer format to a, b, c
         Example: 123 -> 1, 2, 3
     */
-    c = n % 100;
-    b = ((n - c) % 10) % 10;
-    a = (int)(n / 100);
+    string newNum = to_string(n);
+    a = (newNum[0] - '0');
+    b = (newNum[1] - '0');
+    c = (newNum[2] - '0');
+    // c = n % 100;
+    // b = ((n - c) % 10) % 10;
+    // a = (int)(n / 100);
 }
 bool isSet3OfPythagorean(int n){
     int a, b, c;
     if (n >= 100 && n <= 999){
         splitNumber(n, a, b, c);
-        if (a * a + b * b == c * c)
+        if ((a * a + b * b) == c * c)
             return true;
     }
     return false;
@@ -218,7 +223,7 @@ void ArmyKnights::deleteKnightWithIndex(int index)
         // cout << "Index: " << index << endl;
         delete knightList[index];
         knightList[index] = nullptr;
-        this->currentNumKnights--;
+        this->numKnights--;
     }
 }
 
@@ -226,13 +231,13 @@ bool ArmyKnights::handleEvent(int eventOrder, int eventNumber)
 {
     // cout << "Meet: " << (this->knightList[0] == nullptr);
     if (eventNumber <= 5){
-        return fightMinor(eventOrder, eventNumber);
+        return fightVsMinor(eventOrder, eventNumber);
     }
     else if (eventNumber == 6) {
-        return fightTornbery(eventOrder);
+        return fightVsTornbery(eventOrder);
     }
     else if (eventNumber == 7) {
-        return fightQueenOfCards(eventOrder);
+        return fightVsQueenOfCards(eventOrder);
     }
     else if (eventNumber == 8) {
         // cout << "Meet nina: " << (this->knightList[0] == nullptr);
@@ -246,10 +251,10 @@ bool ArmyKnights::handleEvent(int eventOrder, int eventNumber)
 
     }
     else if (eventNumber == 10) {
-        return fightOmegaWeapon();
+        return fightVsOmegaWeapon();
     }
     else if (eventNumber == 11) {
-        return fightHades();
+        return fightVsHades();
 
     }
     else if (eventNumber == 98) {
@@ -258,7 +263,7 @@ bool ArmyKnights::handleEvent(int eventOrder, int eventNumber)
         return 1;
     }
     else if (eventNumber == 99) {
-        return fightUltimecia();
+        return fightVsUltimecia();
     }
 
     else if (eventNumber <= 97){
@@ -266,13 +271,13 @@ bool ArmyKnights::handleEvent(int eventOrder, int eventNumber)
         return 1;
     }
     else {
-        takePhoenixdown(eventNumber - 110);
+        takePhoenixdowns(eventNumber - 110);
         return true;
     }
     return false;
 }
 
-bool ArmyKnights::fightMinor(int eventOrder, int opponentType)
+bool ArmyKnights::fightVsMinor(int eventOrder, int opponentType)
 {
     int gilForEachOpponent[5] = {100, 150, 450, 750, 800};
     int baseDamageForEachOpponent[5] = {10, 15, 45, 75, 95};
@@ -292,6 +297,7 @@ bool ArmyKnights::fightMinor(int eventOrder, int opponentType)
 
         if (knightList[i]->getHP() <= 0){
             deleteKnightWithIndex(i);
+            if (numKnights <= 0) return 0;
             break;
         } 
         else {
@@ -312,7 +318,7 @@ bool ArmyKnights::fightMinor(int eventOrder, int opponentType)
     return 1;
 }
 
-bool ArmyKnights::fightTornbery(int eventOrder)
+bool ArmyKnights::fightVsTornbery(int eventOrder)
 {
     int opponentLevel = (eventOrder + 6) % 10 + 1;
     // cout << opponentLevel << endl;
@@ -323,6 +329,7 @@ bool ArmyKnights::fightTornbery(int eventOrder)
         // cout << knightList[i]->getHP();
         if (knightList[i]->getHP() <= 0) {
             deleteKnightWithIndex(i);
+            if (numKnights <= 0) return 0;
             break;
             // cout << "Torn: " << (knightList[0] == nullptr);
         }
@@ -334,7 +341,7 @@ bool ArmyKnights::fightTornbery(int eventOrder)
     return 1;
 }
 
-bool ArmyKnights::fightQueenOfCards(int eventOrder)
+bool ArmyKnights::fightVsQueenOfCards(int eventOrder)
 {
     int opponentLevel = (eventOrder + 7) % 10 + 1;
     BaseOpponent* opponent = new BaseOpponent(opponentLevel, 7, 0, 0);
@@ -388,7 +395,7 @@ void ArmyKnights::meetDurianGarden()
     }
 }
 
-bool ArmyKnights::fightOmegaWeapon()
+bool ArmyKnights::fightVsOmegaWeapon()
 {
     if (equipments.hasDefeatedByOmega) return 1;
 
@@ -406,6 +413,7 @@ bool ArmyKnights::fightOmegaWeapon()
             knightList[i]->checkConditionForHp();
             if (knightList[i]->getHP() <= 0){
                 deleteKnightWithIndex(i);
+                if (numKnights <= 0) return 0;
                 break;
             } 
             else return 1;
@@ -416,7 +424,7 @@ bool ArmyKnights::fightOmegaWeapon()
     return true;
 }
 
-bool ArmyKnights::fightHades()
+bool ArmyKnights::fightVsHades()
 {
     if (equipments.hasDefeatedByHades) return 1;
 
@@ -434,6 +442,7 @@ bool ArmyKnights::fightHades()
             knightList[i]->checkConditionForHp();
             if (knightList[i]->getHP() <= 0){
                 deleteKnightWithIndex(i);
+                if (numKnights <= 0) return 0;
                 break;
             } 
             else return 1;
@@ -444,11 +453,17 @@ bool ArmyKnights::fightHades()
     return true;
 }
 
-bool ArmyKnights::fightUltimecia()
+bool ArmyKnights::fightVsUltimecia()
 {
     if (equipments.hasSword) return 1;
-    if (!hasPaladinShield() || !hasLancelotSpear() || !hasGuinevereHair())
+    // if (!hasPaladinShield() || !hasLancelotSpear() || !hasGuinevereHair())
+    //     return 0;
+    if (!hasPaladinShield() || !hasLancelotSpear() || !hasGuinevereHair()){
+        for (int i = numKnights - 1; i >= 0; i--){
+            deleteKnightWithIndex(i);
+        }
         return 0;
+    }
 
     int initHP = 5000;
     for (int i = numKnights - 1; i >= 0; i--){
@@ -463,7 +478,7 @@ bool ArmyKnights::fightUltimecia()
     return false;
 }
 
-void ArmyKnights::takePhoenixdown(int phoenixType)
+void ArmyKnights::takePhoenixdowns(int phoenixType)
 {
     BaseItem* item = new Phoenix(phoenixType);
 
@@ -519,7 +534,6 @@ ArmyKnights::ArmyKnights(const string &file_armyknights)
         while(getline(ss, param, ' ')){
             if (lineIndex == 1){
                 this->numKnights = stoi(param);
-                this->currentNumKnights = this->numKnights;
                 this->knightList = new BaseKnight*[this->numKnights];
                 break;
             }
@@ -586,13 +600,13 @@ bool ArmyKnights::adventure(Events *events)
 
 int ArmyKnights::count() const
 {
-    return this->currentNumKnights;
+    return this->numKnights;
 }
 
 BaseKnight *ArmyKnights::lastKnight() const
 {
-    if (this->currentNumKnights == 0) return nullptr;
-    return this->knightList[this->currentNumKnights - 1];
+    if (this->numKnights == 0) return nullptr;
+    return this->knightList[this->numKnights - 1];
 }
 
 bool ArmyKnights::hasPaladinShield() const

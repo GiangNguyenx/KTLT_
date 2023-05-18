@@ -219,7 +219,6 @@ public:
 class ArmyKnights {
     BaseKnight** knightList;
     int numKnights;
-    int currentNumKnights;
     Equipments equipments;
 public:
     ArmyKnights (const string & file_armyknights);
@@ -240,15 +239,15 @@ public:
 private:
     void deleteKnightWithIndex(int index);
     bool handleEvent(int eventOrder, int eventNumber);
-    bool fightMinor(int eventOrder, int eventNumber);
-    bool fightTornbery(int eventOrder);
-    bool fightQueenOfCards(int eventOrder);
+    bool fightVsMinor(int eventOrder, int eventNumber);
+    bool fightVsTornbery(int eventOrder);
+    bool fightVsQueenOfCards(int eventOrder);
     void meetNina();
     void meetDurianGarden();
-    bool fightOmegaWeapon();
-    bool fightHades();
-    bool fightUltimecia();
-    void takePhoenixdown(int);
+    bool fightVsOmegaWeapon();
+    bool fightVsHades();
+    bool fightVsUltimecia();
+    void takePhoenixdowns(int);
     void takeMinorItems(int);
     void takeExcalibur();
     void passGilToPreKnight(int, int);

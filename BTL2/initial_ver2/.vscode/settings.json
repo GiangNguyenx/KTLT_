@@ -11,6 +11,7 @@
     "xlocnum": "cpp",
     "ostream": "cpp",
     "iostream": "cpp",
-    "xstring": "cpp"
+    "xstring": "cpp",
+    "string": "cpp"
   }
 }
